@@ -6,23 +6,23 @@ import arcpy
 
 arcpy.env.overwriteOutput=True
 
-#sort variables
-input = "Y:/Projects/2013/13-13_GIS_Requests/18-CentennialMaps/CentennialMaps/Map_Side/Data/Dist_Wide_POI.shp"
-output = "Y:/Projects/2013/13-13_GIS_Requests/18-CentennialMaps/CentennialMaps/Map_Side/Data/poi_sorted.shp" 
-
+#Variables
+input = "path/to/file"
+output = "path/to/file" 
 numbr = 1
 
-#order features first by zone (asc), then by labelname (asc)
-sortfields = [["FPDzone", "ASCENDING"], ["LabelName", "ASCENDING"]]
-#sort
+#Order features. You can use several levels to order features. Replace "FieldName1" & "FieldName2" with field names in your file.
+sortfields = [["FieldName1", "ASCENDING"], ["FieldName2", "ASCENDING"]]
+
+#Sort
 arcpy.Sort_management(input, output, sortfields)
 
 #input for field number update
 rows = arcpy.UpdateCursor(output)
 	
-#add the sequential numbers according to the sorted fields
+#add the sequential numbers according to the sorted fields. Replace "FIELD" with the field that should recieve the number value.
 for row in rows:
-	row.MAP_NO2 = numbr
+	row.FIELD = numbr
 	rows.updateRow(row)
 	numbr += 1
 
